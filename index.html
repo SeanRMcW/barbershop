@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDNIGHT_BARBER // NEURAL_DJ_LINK</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-color: #050505;
+            --main-green: #00ff41;
+            --dim-green: #003b00;
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+            --warning-red: #ff0000;
+            --crt-flicker: flicker 0.15s infinite;
+        }
+
+        /* Scanline Overlay Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 1000;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Main Styles */
+        body {
+            background-color: var(--bg-color);
+            color: var(--main-green);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            line-height: 1.2;
+            text-shadow: 0 0 5px var(--main-green);
+            scroll-behavior: auto; /* Handled by JS glitch effect */
+        }
+
+        /* Glitch Animation for Navigation */
+        @keyframes glitch-nav {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-5px, -2px); filter: hue-rotate(180deg); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        .glitching {
+            animation: glitch-nav 0.2s linear 3;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.95; }
+            10% { opacity: 0.9; }
+            15% { opacity: 0.95; }
+            20% { opacity: 0.98; }
+            25% { opacity: 0.95; }
+            30% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+
+        .crt-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid var(--main-green);
+            padding: 20px;
+            box-shadow: 0 0 15px var(--dim-green), inset 0 0 10px rgba(255, 0, 255, 0.2);
+            position: relative;
+            animation: var(--crt-flicker);
+            background: rgba(5, 5, 5, 0.85); /* Slight transparency to see skull */
+        }
+
+        /* ASCII Header Styling */
+        pre.header-ascii {
+            font-size: 8px;
+            line-height: 1;
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px var(--neon-pink);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        h1, h2, h3 {
+            text-transform: uppercase;
+            border-bottom: 1px dashed var(--neon-pink);
+            padding-bottom: 5px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .blink {
+            animation: blinker 1s step-start infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        /* Navigation Links */
+        nav {
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--bg-color);
+            background: var(--main-green);
+            text-decoration: none;
+            padding: 2px 8px;
+            font-weight: bold;
+            border: 1px solid var(--neon-pink);
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            background: var(--neon-pink);
+            color: white;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+            border-left: 3px solid var(--neon-pink);
+            padding-left: 15px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid var(--neon-pink);
+            padding: 15px;
+            background: rgba(255, 0, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+        }
+
+        .marquee-container {
+            background: #200020;
+            color: var(--neon-pink);
+            padding: 5px;
+            margin: 20px 0;
+            border: 1px solid var(--neon-pink);
+            overflow: hidden;
+            white-space: nowrap;
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        /* Terminal Prompt Simulator */
+        .terminal-input::before {
+            content: "> ";
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            text-align: center;
+            border-top: 1px solid var(--neon-pink);
+            padding-top: 20px;
+        }
+
+        .counter {
+            color: var(--neon-pink);
+            font-weight: bold;
+        }
+
+        .glitch-text {
+            color: var(--warning-red);
+            font-weight: bold;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-pink); }
+
+        @media (max-width: 600px) {
+            pre.header-ascii { font-size: 4px; }
+            body { padding: 10px; }
+            .skull-bg { font-size: 2px; line-height: 2px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="crt-container" id="main-terminal">
+    <header>
+<pre class="header-ascii">
+ ███╗   ███╗██╗██████╗ ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗
+ ████╗ ████║██║██╔══██╗████╗  ██║██║██╔════╝ ██║  ██║╚══██╔══╝
+ ██╔████╔██║██║██║  ██║██╔██╗ ██║██║██║  ███╗███████║   ██║   
+ ██║╚██╔╝██║██║██║  ██║██║╚██╗██║██║██║   ██║██╔══██║   ██║   
+ ██║ ╚═╝ ██║██║██████╔╝██║ ╚████║██║╚██████╔╝██║  ██║   ██║   
+ ╚═╝     ╚═╝╚═╝╚═════╝ ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
+ ██████╗  █████╗ ██████╗ ██████╗ ███████╗██████╗              
+ ██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗             
+ ██████╔╝███████║██████╔╝██████╔╝█████╗  ██████╔╝             
+ ██╔══██╗██╔══██║██╔══██╗██╔══██╗██╔══╝  ██╔══██╗             
+ ██████╔╝██║  ██║██║  ██║██║  ██║███████╗██║  ██║             
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝             
+</pre>
+        <div class="marquee-container">
+            <marquee scrollamount="6"> SIGNAL LOCK: 97.3 MHz / 101.7 MHz / 108.4 MHz // LAT 47.5612 N  LON 52.7126 W  // NODE HANDSHAKE COMPLETE // UPLINK ESTABLISHED :: PORT 8080 OPEN // FFT ANALYSIS :: BASS ENERGY SPIKE @ 42 Hz // SYSTEM CLOCK DESYNC +0.0021s // REVERB BUS OVERLOAD :: CLIPPING RISK</marquee>
+        </div>
+        
+        <p class="terminal-input">SIGNAL_FOUND: <span class="glitch-text" style="text-shadow: 0 0 10px var(--warning-red);">MIDNIGHT_BARBER_v5.1</span></p>
+        
+        <nav>
+            <a onclick="glitchScroll('broadcast')">/UPLINK/TWITCH</a>
+            <a onclick="glitchScroll('archives')">/UPLINK/MIXCLOUD</a>
+            <a onclick="glitchScroll('socials')">/UPLINK/SOCIALS</a>
+            <a onclick="glitchScroll('intel')">/ABOUT/INTEL</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="broadcast" class="section">
+            <h2>[01] LIVE_TRANSMISSION</h2>
+            <div class="card">
+                <h3>TWITCH.TV/THEMIDNIGHTBARBER</h3>
+                <p>Catch the live visuals and raw audio stream directly from my neural link.</p>
+                <a href="https://www.twitch.tv/themidnightbarber" target="_blank" style="color: var(--neon-blue); text-decoration: underline; font-weight: bold;">INITIATE CONNECTION >></a>
+            </div>
+        </section>
+
+        <section id="archives" class="section">
+            <h2>[02] DATA_ARCHIVES</h2>
+            <div class="card">
+                <h3>MIXCLOUD/THEMIDNIGHTBARBER</h3>
+                <p>Missed a set? Access the encrypted recordings of previous broadcasts. High-fidelity glitch for your late-night coding sessions.</p>
+                <a href="https://www.mixcloud.com/TheMidnightBarber/" target="_blank" style="color: var(--neon-blue); text-decoration: underline; font-weight: bold;">ACCESS ARCHIVES >></a>
+            </div>
+        </section>
+
+        <section id="socials" class="section">
+            <h2>[03] NEURAL_UPLINKS</h2>
+            <div class="grid-container">
+                <div class="card" style="border-color: var(--neon-pink);">
+                    <h3>X / TWITTER</h3>
+                    <p>Field reports and upcoming event intelligence.</p>
+                    <a href="https://x.com/MdntBarber" target="_blank" style="color: var(--neon-pink); text-decoration: underline; font-weight: bold;">FOLLOW COMMS >></a>
+                </div>
+                <div class="card" style="border-color: var(--neon-pink);">
+                    <h3>INSTAGRAM</h3>
+                    <p>Visual logs and glimpses into the barber shop.</p>
+                    <a href="https://www.instagram.com/midnt.barber/" target="_blank" style="color: var(--neon-pink); text-decoration: underline; font-weight: bold;">VIEW RECON >></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="terminal" class="section">
+            <h2>[04] SYSTEM_LOG</h2>
+            <div id="console-output" style="background: #1a001a; padding: 10px; height: 120px; overflow-y: auto; font-size: 0.8em; border: 1px solid var(--neon-pink); color: var(--neon-pink);">
+                <div style="color: #884488;">[Initializing Barber_Neural_Link...]</div>
+                <div>[OK] Loading Synthwave.dll...</div>
+                <div>[OK] Establishing Glitch_Gate...</div>
+                <div style="color: var(--warning-red); text-shadow: 0 0 5px var(--warning-red);">[ALERT] Unauthorized Instagram uplink established.</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>BEST VIEWED IN <span style="color: var(--neon-blue);">NETSCAPE NAVIGATOR 4.0</span> AT 800x600</p>
+        <p>RECRUITS TRACKED: <span class="counter" id="visitor-count">0001337</span></p>
+        <p>&copy; 199X MIDNIGHT_BARBER. PROTECT YOUR DATA. <span class="blink" style="color: var(--neon-pink);">_</span></p>
+    </footer>
+</div>
+
+<script>
+    // Glitch Scroll Logic
+    function glitchScroll(id) {
+        const terminal = document.getElementById('main-terminal');
+        const target = document.getElementById(id);
+        
+        // Start visual glitch
+        terminal.classList.add('glitching');
+        
+        // Simulate a "noisy" jump
+        setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+
+        // Remove effect after scroll finishes
+        setTimeout(() => {
+            terminal.classList.remove('glitching');
+        }, 600);
+    }
+
+    // Fake visitor counter increment
+    const count = document.getElementById('visitor-count');
+    setInterval(() => {
+        if(Math.random() > 0.98) {
+            let current = parseInt(count.innerText);
+            count.innerText = (current + 1).toString().padStart(7, '0');
+        }
+    }, 1000);
+
+    // Dynamic console lines for DJ theme
+    const consoleOutput = document.getElementById('console-output');
+    const messages = [
+        "Syncing BPM to heartbeat...",
+        "Bypassing ear-drum limiters...",
+        "Compressing dark-synth textures...",
+        "Calibrating glitch oscillators...",
+        "Virtual club detected: Black_Box_VRC",
+        "Signal strength: 14.4kbps (Dial-up Mode)",
+        "Social uplink: @midnt.barber active",
+        "Warning: Too much distortion detected. Ignoring."
+    ];
+
+    setInterval(() => {
+        if(Math.random() > 0.8) {
+            const line = document.createElement('div');
+            line.textContent = `[LOG] ${messages[Math.floor(Math.random() * messages.length)]}`;
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            if(consoleOutput.children.length > 15) consoleOutput.removeChild(consoleOutput.firstChild);
+        }
+    }, 2500);
+</script>
+
+</body>
+</html>
