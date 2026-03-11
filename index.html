@@ -82,7 +82,7 @@
 
         /* ASCII Header Styling */
         pre.header-ascii {
-            font-size: 8px;
+            font-size: 14px;
             line-height: 1;
             color: var(--neon-pink);
             text-shadow: 0 0 8px var(--neon-pink);
@@ -196,7 +196,7 @@
         ::-webkit-scrollbar-thumb { background: var(--neon-pink); }
 
         @media (max-width: 600px) {
-            pre.header-ascii { font-size: 4px; }
+            pre.header-ascii { font-size: 10px; }
             body { padding: 10px; }
             .skull-bg { font-size: 2px; line-height: 2px; }
         }
@@ -218,19 +218,18 @@
  ██████╔╝███████║██████╔╝██████╔╝█████╗  ██████╔╝             
  ██╔══██╗██╔══██║██╔══██╗██╔══██╗██╔══╝  ██╔══██╗             
  ██████╔╝██║  ██║██║  ██║██║  ██║███████╗██║  ██║             
- ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝             
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝     
 </pre>
         <div class="marquee-container">
             <marquee scrollamount="6"> SIGNAL LOCK: 97.3 MHz / 101.7 MHz / 108.4 MHz // LAT 47.5612 N  LON 52.7126 W  // NODE HANDSHAKE COMPLETE // UPLINK ESTABLISHED :: PORT 8080 OPEN // FFT ANALYSIS :: BASS ENERGY SPIKE @ 42 Hz // SYSTEM CLOCK DESYNC +0.0021s // REVERB BUS OVERLOAD :: CLIPPING RISK</marquee>
         </div>
         
-        <p class="terminal-input">SIGNAL_FOUND: <span class="glitch-text" style="text-shadow: 0 0 10px var(--warning-red);">MIDNIGHT_BARBER_v5.1</span></p>
+        <p class="terminal-input">SIGNAL_FOUND: <span class="glitch-text" style="text-shadow: 0 0 10px var(--warning-red);">MIDNIGHT_BARBER_v5.1</span><span class="blink" style="color: var(--neon-pink);">_</span></p>
         
         <nav>
             <a onclick="glitchScroll('broadcast')">/UPLINK/TWITCH</a>
             <a onclick="glitchScroll('archives')">/UPLINK/MIXCLOUD</a>
             <a onclick="glitchScroll('socials')">/UPLINK/SOCIALS</a>
-            <a onclick="glitchScroll('intel')">/ABOUT/INTEL</a>
         </nav>
     </header>
 
@@ -283,7 +282,7 @@
     <footer>
         <p>BEST VIEWED IN <span style="color: var(--neon-blue);">NETSCAPE NAVIGATOR 4.0</span> AT 800x600</p>
         <p>RECRUITS TRACKED: <span class="counter" id="visitor-count">0001337</span></p>
-        <p>&copy; 199X MIDNIGHT_BARBER. PROTECT YOUR DATA. <span class="blink" style="color: var(--neon-pink);">_</span></p>
+        <p>&copy; 199X MIDNIGHT_BARBER</p>
     </footer>
 </div>
 
